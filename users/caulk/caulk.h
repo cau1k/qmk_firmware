@@ -46,6 +46,9 @@ enum hk_keycodes {
 
     // Inverts the scroll direction.
     HK_INVERT_SCROLL_DIRECTION, // 0x7E0B
+
+    // Macro: LCTL + LALT + LGUI tap.
+    CAG_MACRO, // 0x7E0C
 };
 
 #define HK_SAVE      HK_SAVE_SETTINGS

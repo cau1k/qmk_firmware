@@ -560,6 +560,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
     bool state_changed = false;
 
     switch (keycode) {
+        case CAG_MACRO:
+            if (record->event.pressed) {
+                register_mods(MOD_BIT(KC_LCTL) | MOD_BIT(KC_LALT) | MOD_BIT(KC_LGUI));
+                send_keyboard_report();
+                unregister_mods(MOD_BIT(KC_LCTL) | MOD_BIT(KC_LALT) | MOD_BIT(KC_LGUI));
+                send_keyboard_report();
+            }
+            return false;
         case HK_SAVE_SETTINGS:
             if (record->event.pressed) {
                 write_eeconfig();
