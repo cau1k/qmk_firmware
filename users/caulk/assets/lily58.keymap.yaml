@@ -76,17 +76,17 @@ layers:
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
   SYM:
-  - ['`', '~', '''', '"', ':', ;]
+  - - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
   - ['|', \, '-', '=', _, +]
-  - [HOME, END, '!', '@', '#', '%']
+  - ['`', '~', '''', '"', ':', ;]
   - ['&', '*', (, ), '[', ']']
-  - - $
-    - {t: ▽, type: trans}
-    - {t: ▽, type: trans}
-    - {t: ▽, type: trans}
-    - {t: ▽, type: trans}
-    - {t: ▽, type: trans}
-  - [^, '{', '}', <, '>', /]
+  - ['!', '@', '#', $, '%', ^]
+  - ['{', '}', <, '>', /, '?']
   - - CW TOGG
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}

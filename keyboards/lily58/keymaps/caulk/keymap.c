@@ -60,9 +60,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   /* SYM */
   [_SYM] = LAYOUT(
-    KC_GRV,  KC_TILD,         KC_QUOT,         KC_DQUO,         KC_COLN,         KC_SCLN,                              KC_PIPE,         KC_BSLS,         KC_MINS,         KC_EQL,          KC_UNDS,         KC_PLUS,
-    KC_HOME, KC_END,          KC_EXLM,         KC_AT,           KC_HASH,         KC_PERC,                              KC_AMPR,         KC_ASTR,         KC_LPRN,         KC_RPRN,         KC_LBRC,         KC_RBRC,
-    KC_DLR,  KC_TRNS,         KC_TRNS,         KC_TRNS,         KC_TRNS,         KC_TRNS,                              KC_CIRC,         KC_LCBR,         KC_RCBR,         KC_LABK,         KC_RABK,         KC_SLSH,
+    KC_TRNS, KC_TRNS,         KC_TRNS,         KC_TRNS,         KC_TRNS,         KC_TRNS,                              KC_PIPE,         KC_BSLS,         KC_MINS,         KC_EQL,          KC_UNDS,         KC_PLUS,
+    KC_GRV,  KC_TILD,         KC_QUOT,         KC_DQUO,         KC_COLN,         KC_SCLN,                              KC_AMPR,         KC_ASTR,         KC_LPRN,         KC_RPRN,         KC_LBRC,         KC_RBRC,
+    KC_EXLM, KC_AT,           KC_HASH,         KC_DLR,          KC_PERC,         KC_CIRC,                              KC_LCBR,         KC_RCBR,         KC_LABK,         KC_RABK,         KC_SLSH,         KC_QUES,
     CW_TOGG, KC_TRNS,         KC_TRNS,         KC_TRNS,         KC_TRNS,         KC_TRNS,        KC_TRNS,  KC_TRNS,     KC_TRNS,         KC_TRNS,         KC_TRNS,         KC_TRNS,         KC_TRNS,         KC_TRNS,
                                       KC_TRNS, KC_TRNS,         KC_TRNS,         KC_TRNS,         KC_TRNS,         KC_TRNS,         KC_TRNS,         KC_TRNS
   ),
