@@ -47,24 +47,24 @@ layers:
     - '8'
     - '9'
     - '0'
-  - - LEFT
+  - - Ctl+LEFT
     - DOWN
     - UP
-    - RGHT
+    - Ctl+RGHT
     - BSPC
-    - {t: ▽, type: trans}
-  - - Ctl+Z
-    - Ctl+X
-    - Ctl+C
-    - Ctl+V
-    - Ctl+Y
     - {t: ▽, type: trans}
   - - {t: ▽, type: trans}
     - {t: ▽, type: trans}
-    - Ctl+LEFT
-    - Ctl+RGHT
-    - Ctl+BSPC
-    - Ctl+DEL
+    - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+  - - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
   - - {t: ▽, type: trans}
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
