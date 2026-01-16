@@ -7,14 +7,14 @@ layers:
   - [Y, U, I, O, P, '-']
   - - LCTL
     - {t: A, h: LCTL}
-    - {t: S, h: LALT}
-    - {t: D, h: LGUI}
+    - {t: S, h: LGUI}
+    - {t: D, h: LALT}
     - {t: F, h: LSFT}
     - G
   - - H
     - {t: J, h: RSFT}
-    - {t: K, h: RGUI}
-    - {t: L, h: RALT}
+    - {t: K, h: RALT}
+    - {t: L, h: RGUI}
     - {t: ;, h: RCTL}
     - ''''
   - [LSFT, Z, X, C, V, B]
