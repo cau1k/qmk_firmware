@@ -16,25 +16,41 @@ Below are some resources to reference.
 
 ### base + F‑key/arrow layer + numpad layer; OLED is Luna pet + WPM on master, logo on slave. ​/home/user/.library-catalog/c/kuji5.kuji-lily58/keymap.c:24 ​/home/user/.library-catalog/c/kuji5.kuji-lily58/keymap.c:291
 
-### riiadesign/lily58-kiumi: base QWERTY with layer‑tap space/backspace; LOWER is F‑keys + nav, RAISE is media/numpad; OLED master shows layer + mod icons + logo, slave runs BongoCat and a minimal prompt blink. ​/home/user/.library-catalog/c/riiadesign.lily58-kiumi/keymap.c:11 ​/home/user/.library-catalog/c/riiadesign.lily58-kiumi/brain.c:21
+### riiadesign/lily58-kiumi: 
 
-### karlnicoll/lily58-cbiscuit: base has braces on inner column, LSPO/RSPC for parens, LALT_T/RALT_T for brackets; symbol layer includes F1–F20, < >, \ |, + -; nav has arrows + paging; OLED is minimal layer/LED text. ​/home/user/.library-catalog/c/karlnicoll.lily58-cbiscuit/keymap.c:11 ​/home/user/.library-catalog/c/karlnicoll.lily58-cbiscuit/keymap.c:148
+- base QWERTY with layer‑tap space/backspace; LOWER is F‑keys + nav, RAISE is media/numpad; OLED master shows layer + mod icons + logo, slave runs BongoCat and a minimal prompt blink. ​/home/user/.library-catalog/c/riiadesign.lily58-kiumi/keymap.c:11 ​/home/user/.library-catalog/c/riiadesign.lily58-kiumi/brain.c:21
 
-### oldfieldtc/Lily58-keymap: LOWER has F1–F12 + full symbol row with {} and |, RAISE has arrows + []\ + + - =; OLED shows layer + keylog + WPM. ​/home/user/.library-catalog/c/oldfieldtc.lily58-keymap/keymap.c:38 ​/home/user/.library-catalog/c/oldfieldtc.lily58-keymap/keymap.c:120
+### karlnicoll/lily58-cbiscuit: 
 
-### miroresh/lily58: LOWER puts {}/[] top‑right and arrows + + - / |; RAISE repeats arrows + []\; encoder for volume; OLED shows layer + keylog. ​/home/user/.library-catalog/c/miroresh.lily58/keymap.c:48 ​/home/user/.library-catalog/c/miroresh.lily58/keymap.c:148
+- base has braces on inner column, LSPO/RSPC for parens, LALT_T/RALT_T for brackets; symbol layer includes F1–F20, < >, \ |, + -; nav has arrows + paging; OLED is minimal layer/LED text. ​/home/user/.library-catalog/c/karlnicoll.lily58-cbiscuit/keymap.c:11 ​/home/user/.library-catalog/c/karlnicoll.lily58-cbiscuit/keymap.c:148
 
-### siketyan/lily58-keymap: LOWER is dense with F1–F20 and !@#$%^&\*() + < > \_ + { } |; RAISE adds arrows, nav, and parens; OLED shows layer + keylog. ​/home/user/.library-catalog/c/siketyan.lily58-keymap/keymap.c:48 ​/home/user/.library-catalog/c/siketyan.lily58-keymap/keymap.c:138
+### oldfieldtc/Lily58-keymap: 
 
-### aciceri/lily58: standard LOWER/RAISE symbol layout with {} + | + arrows; OLED can display 4 lines sent from host via raw HID (useful for editor state). ​/home/user/.library-catalog/c/aciceri.lily58/keymap.c:39 ​/home/user/.library-catalog/c/aciceri.lily58/keymap.c:95
+- LOWER has F1–F12 + full symbol row with {} and |, RAISE has arrows + []\ + + - =; OLED shows layer + keylog + WPM. ​/home/user/.library-catalog/c/oldfieldtc.lily58-keymap/keymap.c:38 ​/home/user/.library-catalog/c/oldfieldtc.lily58-keymap/keymap.c:120
 
-### isaacsa51/lily58-keycat: Colemak‑DH base + QWERTY layer, TT layer toggles, select_word helper; LOWER is media/nav, RAISE is F‑keys + mouse; OLED shows WPM/GUI/Caps/Layer plus BongoCat on slave. ​/home/user/.library-catalog/c/isaacsa51.lily58-keycat/keymap.c:24 ​/home/user/.library-catalog/c/isaacsa51.lily58-keycat/keymap.c:124
+### miroresh/lily58: 
 
-### NewAbbreviations950/NA_Lily58: RIGHT layer has F1–F12 + [](){}<> + desktop switch; LEFT layer is mouse/num pad; OLED shows layer/locks/macro state + jiggler + Luna pet; Cirque trackpad enabled in config. ​/home/user/.library-catalog/c/newabbreviations950.na_lily58/keymap.c:17 ​/home/user/.library-catalog/c/newabbreviations950.na_lily58/keymap.c:353
+- LOWER puts {}/[] top‑right and arrows + + - / |; RAISE repeats arrows + []\; encoder for volume; OLED shows layer + keylog. ​/home/user/.library-catalog/c/miroresh.lily58/keymap.c:48 ​/home/user/.library-catalog/c/miroresh.lily58/keymap.c:148
+
+### siketyan/lily58-keymap:
+
+- LOWER is dense with F1–F20 and !@#$%^&\*() + < > \_ + { } |; RAISE adds arrows, nav, and parens; OLED shows layer + keylog. ​/home/user/.library-catalog/c/siketyan.lily58-keymap/keymap.c:48 ​/home/user/.library-catalog/c/siketyan.lily58-keymap/keymap.c:138
+
+### aciceri/lily58: 
+
+- standard LOWER/RAISE symbol layout with {} + | + arrows; OLED can display 4 lines sent from host via raw HID (useful for editor state). ​/home/user/.library-catalog/c/aciceri.lily58/keymap.c:39 ​/home/user/.library-catalog/c/aciceri.lily58/keymap.c:95
+
+### isaacsa51/lily58-keycat: 
+
+- Colemak‑DH base + QWERTY layer, TT layer toggles, select_word helper; LOWER is media/nav, RAISE is F‑keys + mouse; OLED shows WPM/GUI/Caps/Layer plus BongoCat on slave. ​/home/user/.library-catalog/c/isaacsa51.lily58-keycat/keymap.c:24 ​/home/user/.library-catalog/c/isaacsa51.lily58-keycat/keymap.c:124
+
+### NewAbbreviations950/NA_Lily58: 
+
+- RIGHT layer has F1–F12 + [](){}<> + desktop switch; LEFT layer is mouse/num pad; OLED shows layer/locks/macro state + jiggler + Luna pet; Cirque trackpad enabled in config. ​/home/user/.library-catalog/c/newabbreviations950.na_lily58/keymap.c:17 ​/home/user/.library-catalog/c/newabbreviations950.na_lily58/keymap.c:353
 
 # Programming-Focused Observations
 
-## Strongest symbol optimization for { } [ ] ( ) < > | and F‑keys:
+## Strongest symbol optimization for { } [ ] ( ) < > | and arrow keys on hjkl:
 
 - karlnicoll/lily58-cbiscuit and siketyan/lily58-keymap; miroresh/lily58 and NA_Lily58 are good but less dense. ​/home/user/.library-catalog/c/karlnicoll.lily58-cbiscuit/keymap.c:57 ​/home/user/.library-catalog/c/siketyan.lily58-keymap/keymap.c:69
 
