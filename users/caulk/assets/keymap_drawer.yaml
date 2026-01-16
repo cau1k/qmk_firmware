@@ -1,0 +1,29 @@
+draw_config:
+  dark_mode: true
+  svg_extra_style: |
+    svg.keymap {
+      background: #06160a;
+      fill: #f5fff7;
+    }
+    rect.key {
+      fill: #000000;
+    }
+    rect.key, rect.combo {
+      stroke: #00ff7b;
+      stroke-width: 1;
+    }
+    rect.combo, rect.combo-separate {
+      fill: #0d2a18;
+    }
+    rect.held, rect.combo.held {
+      fill: #133622;
+    }
+    text.label, text.footer {
+      stroke: #06160a;
+    }
+    text.trans {
+      fill: #3d5f4b;
+    }
+    path.combo {
+      stroke: #00ff7b;
+    }
