@@ -9,3 +9,5 @@ this lily58 keyboard is from [holykeebs](https://docs.holykeebs.com/guides/keybo
 if you see an interesting repo in the readme, give the github url to the librarian subagent and ask them to add it if its not already there.
 
 another layout that i really like the concept of (uses smart words) is https://github.com/minusfive/knucklehead#smart-🆆ord-behaviors
+
+we were considering adding caps words and smart word behaviors but decided against it for now.
