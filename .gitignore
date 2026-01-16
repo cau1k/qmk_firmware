@@ -90,6 +90,10 @@ tags
 *.webp
 *.webm
 *.avi
+
+# Allow keymap assets
+!users/caulk/assets/
+!users/caulk/assets/**
 *.mp4
 *.mpeg
 *.ttf
