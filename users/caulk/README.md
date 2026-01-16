@@ -9,6 +9,8 @@ Generated from `keyboards/lily58/keymaps/caulk/keymap.c`.
 
 ### Layers
 
+![ALL](lily58_all_layers.png)
+
 ![BASE](lily58_BASE.png)
 ![NAV](lily58_NAV.png)
 ![SYM](lily58_SYM.png)
