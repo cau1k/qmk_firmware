@@ -714,6 +714,15 @@ void keyboard_post_init_user(void) {
             transaction_register_rpc(HK_SYNC_STATE, hk_rpc_sync_state);
         #endif
 
+        #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
+            set_auto_mouse_layer(AUTO_MOUSE_DEFAULT_LAYER);
+            set_auto_mouse_enable(true);
+        #endif
+        #ifdef RGB_MATRIX_ENABLE
+            rgb_matrix_enable_noeeprom();
+            rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
+        #endif
+
         keyboard_post_init_keymap();
         return;
     }
@@ -735,6 +744,15 @@ void keyboard_post_init_user(void) {
         deserialize_eeconfig_to_state(&hk_eeprom_config);
         debug_hk_state_to_console(&g_hk_state);
     }
+
+    #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
+        set_auto_mouse_layer(AUTO_MOUSE_DEFAULT_LAYER);
+        set_auto_mouse_enable(true);
+    #endif
+    #ifdef RGB_MATRIX_ENABLE
+        rgb_matrix_enable_noeeprom();
+        rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
+    #endif
 
     keyboard_post_init_keymap();
 }
