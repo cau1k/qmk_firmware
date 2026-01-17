@@ -57,13 +57,7 @@ flash_once() {
   local label="$1"
 
   echo ""
-  echo "Flash ${label} half"
-  echo "- Unplug TRRS"
-  echo "- Plug ${label} half into USB"
-  echo "- Enter bootloader (RPI-RP2 drive)"
-  read -r -p "Press Enter when the drive appears..."
-
-  echo "Waiting for ${label} bootloader..."
+  echo "Waiting for ${label} bootloader (RPI-RP2 drive)..."
   for i in {1..120}; do
     if mount_path=$(find_mount); then
       echo "Found ${mount_path}. Copying UF2..."
@@ -92,7 +86,8 @@ if [[ ! -f "$UF2" ]]; then
 fi
 
 flash_once "left"
-echo "Left done. Unplug it, then plug the right half."
+echo "Left done. Waiting 10 seconds before right half..."
+sleep 10
 flash_once "right"
 
 echo "Done."
