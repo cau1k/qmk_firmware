@@ -17,6 +17,7 @@
 #include QMK_KEYBOARD_H
 #include <stdio.h>
 #include "lib/lib8tion/lib8tion.h"
+#include "pointing_device_auto_mouse.h"
 #include "users/caulk/caulk.h"
 
 enum layer_number {
@@ -86,13 +87,25 @@ bool caps_word_press_user(uint16_t keycode) {
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case LT(_NAV, KC_SPC):
-            return 220;
+            return 150;
         case LT(_SYM, KC_ENT):
-            return 200;
+            return 170;
         default:
             return TAPPING_TERM;
     }
 }
+
+#ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
+void keyboard_post_init_keymap(void) {
+    set_auto_mouse_layer(_ADJ);
+    set_auto_mouse_enable(true);
+
+#ifdef RGB_MATRIX_ENABLE
+    rgb_matrix_enable_noeeprom();
+    rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
+#endif
+}
+#endif
 
 #ifdef RGB_MATRIX_ENABLE
 static void set_nav_rgb(void) {
