@@ -23,7 +23,7 @@ endif
 
 MSG_POINTING_DEVICE = none
 MSG_OLED = no
-MASTER_SIDE = right
+MASTER_SIDE = left
 
 ifeq ($(strip $(POINTING_DEVICE_POSITION)), right)
 	OPT_DEFS += -DPOINTING_DEVICE_POSITION_RIGHT
@@ -555,6 +555,8 @@ ifeq ($(strip $(POINTING_DEVICE)), cirque40_trackpoint)
 	MSG_POINTING_DEVICE = cirque40 touchpad (left), trackpoint (right); built for side = $(SIDE)
 	MASTER_SIDE = right
 endif
+
+MASTER_SIDE = left
 
 ifeq ($(strip $(MASTER_SIDE)), left)
 	MSG_MASTER_SIDE = left
