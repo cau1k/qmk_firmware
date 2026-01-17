@@ -1,289 +1,105 @@
-#include "pointing.h"
+#include "caulk.h"
 #include "quantum.h"
-#include "timer.h"
+#include "pointing_device.h"
 #include "wpm.h"
 #include <stdio.h>
-#include <string.h>
 
-static const char *pointer_kind_to_string(hk_pointer_kind kind) {
-    switch (kind) {
-        case POINTER_KIND_NONE:
-            return "NONE \xB1";
-        case POINTER_KIND_PIMORONI_TRACKBALL:
-            return "PIM  \xB1";
-        case POINTER_KIND_TRACKPOINT:
-            return "TP   \xB1";
-        case POINTER_KIND_CIRQUE35:
-            return "CR35 \xB1";
-        case POINTER_KIND_CIRQUE40:
-            return "CR40 \xB1";
-        case POINTER_KIND_TPS43:
-            return "TPS43\xB1";
-        default:
-            return "?????\xB1";
-    }
-}
-
-static const char BL = '\xB0'; // Blank indicator character
-static const char LFSTR_ON[] PROGMEM = "\xB2\xB3";
-static const char LFSTR_OFF[] PROGMEM = "\xB4\xB5";
-
-static const char *format_3d(int8_t d) {
-    static char buf[10] = {0};
-    char        lead   = ' ';
-    if (d < 0) {
-        d    = -d;
-        lead = '-';
-    }
-    sprintf(buf, "%c%2d", lead, d);
-    return buf;
-}
-
-static const char *format_2d(int8_t d) {
-    static char buf[10] = {0};
-    if (d > 99) {
-        d = 99;
-    }
-    sprintf(buf, "%02d", d);
-    return buf;
-}
-
-static char to_1x(uint8_t x) {
-    x &= 0x0f;
-    return x < 10 ? x + '0' : x + 'a' - 10;
-}
-
-static const char *format_multiplier(float f) {
-    static char buf[10] = {0};
-    if (f > 10 || f < -10) {
-        sprintf(buf, "err");
-    } else {
-        sprintf(buf, "%2.1f", f);
-    }
-    return buf;
-}
+#define HK_WPM_MAX 999
 
 typedef enum {
-    HK_OLED_MODE_BONGO = 0,
-    HK_OLED_MODE_STATUS,
-} hk_oled_mode_t;
+    HK_OLED_SCREEN_STATUS = 0,
+    HK_OLED_SCREEN_BLANK,
+} hk_oled_screen_t;
 
-static hk_oled_mode_t hk_oled_mode = HK_OLED_MODE_BONGO;
+static hk_oled_screen_t hk_oled_screen  = HK_OLED_SCREEN_STATUS;
+static uint16_t         last_wpm         = 0xFFFF;
+static uint8_t          last_layer       = 0xFF;
+static bool             last_auto_mouse  = false;
+static bool             force_redraw     = true;
+static bool             blank_rendered   = false;
 
-#define IDLE_FRAMES 5
-#define IDLE_SPEED 30
-#define TAP_FRAMES 2
-#define TAP_SPEED 40
-#define ANIM_FRAME_DURATION 200
-#define ANIM_SIZE 512
-
-static uint32_t anim_timer         = 0;
-static uint32_t anim_sleep         = 0;
-static uint8_t  current_idle_frame = 0;
-static uint8_t  current_tap_frame  = 0;
-static uint32_t oled_timeout       = 600000; // 10 minutes
-
-static const char PROGMEM idle[IDLE_FRAMES][ANIM_SIZE] = {
-    {
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,64,64,32,32,32,32,16,16,16,16,16,8,8,4,4,4,8,48,64,128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,128,128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,24,100,130,2,2,2,2,2,1,0,0,0,0,128,128,0,0,0,0,0,0,0,0,0,128,0,48,48,0,192,193,193,194,4,8,16,32,64,128,0,0,0,128,128,128,128,64,64,
-        64,64,32,32,32,32,16,16,16,16,8,8,8,8,8,4,4,4,4,4,2,2,2,2,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,192,56,4,3,0,0,0,0,0,0,0,12,12,12,13,1,0,64,160,33,34,18,17,17,17,9,8,8,8,8,4,4,8,8,16,16,16,16,16,17,15,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,128,128,128,128,64,64,64,64,64,32,32,32,32,32,16,16,16,16,16,8,8,8,8,8,4,4,4,4,4,2,3,2,2,1,1,1,1,1,1,2,2,4,4,8,8,8,8,8,7,
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-    },
-
-    {
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,64,64,32,32,32,32,16,16,16,16,16,8,8,4,4,4,8,48,64,128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,128,128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,24,100,130,2,2,2,2,2,1,0,0,0,0,128,128,0,0,0,0,0,0,0,0,0,128,0,48,48,0,192,193,193,194,4,8,16,32,64,128,0,0,0,128,128,128,128,64,64,
-        64,64,32,32,32,32,16,16,16,16,8,8,8,8,8,4,4,4,4,4,2,2,2,2,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,192,56,4,3,0,0,0,0,0,0,0,12,12,12,13,1,0,64,160,33,34,18,17,17,17,9,8,8,8,8,4,4,8,8,16,16,16,16,16,17,15,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,128,128,128,128,64,64,64,64,64,32,32,32,32,32,16,16,16,16,16,8,8,8,8,8,4,4,4,4,4,2,3,2,2,1,1,1,1,1,1,2,2,4,4,8,8,8,8,8,
-        7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-    },
-
-    {
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,128,64,64,64,64,32,32,32,32,16,8,4,2,2,4,24,96,128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,128,128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,60,194,1,1,2,2,4,4,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,96,96,0,129,130,130,132,8,16,32,64,128,0,0,0,0,128,128,128,128,64,64,64,64,32,
-        32,32,32,16,16,16,16,8,8,8,8,8,4,4,4,4,4,2,2,2,2,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,112,25,6,0,0,0,0,0,0,0,24,24,24,27,3,0,64,160,34,36,20,18,18,18,11,8,8,8,8,5,5,9,9,16,16,16,16,16,17,15,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,128,128,128,128,64,64,64,64,64,32,32,32,32,32,16,16,16,16,16,8,8,8,8,8,4,4,4,4,4,2,3,2,2,1,1,1,1,1,1,2,2,4,4,8,8,8,8,8,7,0,0,0,
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-    },
-
-    {
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,128,0,0,0,0,0,128,64,64,32,32,32,32,16,16,16,16,8,4,2,1,1,2,12,48,64,128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,128,128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,30,225,0,0,1,1,2,2,1,0,0,0,0,128,128,0,0,0,0,0,0,0,0,0,128,0,48,48,0,192,193,193,194,4,8,16,32,64,128,0,0,0,128,128,128,128,64,64,
-        64,64,32,32,32,32,16,16,16,16,8,8,8,8,8,4,4,4,4,4,2,2,2,2,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,112,12,3,0,0,0,0,0,0,0,12,12,12,13,1,0,64,160,33,34,18,17,17,17,9,8,8,8,8,4,4,8,8,16,16,16,16,16,17,15,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,128,128,128,128,64,64,64,64,64,32,32,32,32,32,16,16,16,16,16,8,8,8,8,8,4,4,4,4,4,2,3,2,2,1,1,1,1,1,1,2,2,4,4,8,8,8,8,8,
-        7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-    },
-
-    {
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,64,64,32,32,32,32,16,16,16,16,8,8,4,2,2,2,4,56,64,128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,128,128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,28,226,1,1,2,2,2,2,1,0,0,0,0,128,128,0,0,0,0,0,0,0,0,0,128,0,48,48,0,192,193,193,194,4,8,16,32,64,128,0,0,0,128,128,128,128,64,64,64,64,
-        32,32,32,32,16,16,16,16,8,8,8,8,8,4,4,4,4,4,2,2,2,2,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,112,12,3,0,0,0,0,0,0,0,12,12,12,13,1,0,64,160,33,34,18,17,17,17,9,8,8,8,8,4,4,8,8,16,16,16,16,16,17,15,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,128,128,128,128,64,64,64,64,64,32,32,32,32,32,16,16,16,16,16,8,8,8,8,8,4,4,4,4,4,2,3,2,2,1,1,1,1,1,1,2,2,4,4,8,8,8,8,8,7,0,0,
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+oled_rotation_t oled_init_user(oled_rotation_t rotation) {
+    if (is_keyboard_left()) {
+        return OLED_ROTATION_270;
     }
-};
-
-static const char PROGMEM prep[][ANIM_SIZE] = {
-    {
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,128,0,0,0,0,0,128,64,64,32,32,32,32,16,16,16,16,8,4,2,1,1,2,12,48,64,128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,128,128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,30,225,0,0,1,1,2,2,129,128,128,0,0,128,128,0,0,0,0,0,0,0,0,0,128,0,48,48,0,0,1,225,26,6,9,49,53,1,138,124,0,0,128,128,128,128,64,64,
-        64,64,32,32,32,32,16,16,16,16,8,8,8,8,8,4,4,4,4,4,2,2,2,2,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,112,12,3,0,0,24,6,5,152,153,132,195,124,65,65,64,64,32,33,34,18,17,17,17,9,8,8,8,8,4,4,4,4,4,4,2,2,2,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,128,128,128,128,64,64,64,64,64,32,32,32,32,32,16,16,16,16,16,8,8,8,8,8,4,4,4,4,4,2,3,2,2,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-    }
-};
-
-static const char PROGMEM tap[TAP_FRAMES][ANIM_SIZE] = {
-    {
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,128,0,0,0,0,0,128,64,64,32,32,32,32,16,16,16,16,8,4,2,1,1,2,12,48,64,128,0,0,0,0,0,0,0,248,248,248,248,0,0,0,0,0,128,128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,128,128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,30,225,0,0,1,1,2,2,129,128,128,0,0,128,128,0,0,0,0,0,0,0,0,0,128,0,48,48,0,0,1,1,2,4,8,16,32,67,135,7,1,0,184,188,190,159,
-        95,95,79,76,32,32,32,32,16,16,16,16,8,8,8,8,8,4,4,4,4,4,2,2,2,2,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,112,12,3,0,0,24,6,5,152,153,132,67,124,65,65,64,64,32,33,34,18,17,17,17,9,8,8,8,8,4,4,8,8,16,16,16,16,16,17,15,1,61,124,252,252,252,252,252,60,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,128,128,128,128,64,64,64,64,64,32,32,32,32,32,16,16,16,16,16,8,8,8,8,8,4,4,4,4,4,2,3,2,2,1,1,1,
-        1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-    },
-
-    {
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,128,0,0,0,0,0,128,64,64,32,32,32,32,16,16,16,16,8,4,2,1,1,2,12,48,64,128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,128,128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,30,225,0,0,1,1,2,2,1,0,0,0,0,128,128,0,0,0,0,0,0,0,0,0,128,0,48,48,0,0,1,225,26,6,9,49,53,1,138,124,0,0,128,128,128,128,64,64,64,64,32,
-        32,32,32,16,16,16,16,8,8,8,8,8,4,4,4,4,4,2,2,2,2,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,112,12,3,0,0,0,0,0,0,0,0,0,0,1,1,0,64,160,33,34,18,17,17,17,9,8,8,8,8,4,4,4,4,4,4,2,2,2,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,128,128,128,128,64,64,64,64,64,32,32,32,32,32,16,16,16,16,16,8,8,8,8,8,4,4,4,4,4,2,3,122,122,121,121,121,121,57,49,2,2,4,4,8,8,8,136,136,135,128,
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-    }
-};
-
-static void bongocat_animation_phase(uint8_t wpm) {
-    if (wpm <= IDLE_SPEED) {
-        current_idle_frame = (current_idle_frame + 1) % IDLE_FRAMES;
-        uint8_t frame = (IDLE_FRAMES - 1) - current_idle_frame;
-        oled_write_raw_P(idle[frame], ANIM_SIZE);
-        return;
-    }
-
-    if (wpm < TAP_SPEED) {
-        oled_write_raw_P(prep[0], ANIM_SIZE);
-        return;
-    }
-
-    current_tap_frame = (current_tap_frame + 1) % TAP_FRAMES;
-    uint8_t frame = (TAP_FRAMES - 1) - current_tap_frame;
-    oled_write_raw_P(tap[frame], ANIM_SIZE);
-}
-
-static void render_bongocat(void) {
-    uint8_t wpm = get_current_wpm();
-
-    if (wpm != 0) {
-        oled_on();
-
-        if (timer_elapsed32(anim_timer) > ANIM_FRAME_DURATION) {
-            anim_timer = timer_read32();
-            bongocat_animation_phase(wpm);
-        }
-
-        anim_sleep = timer_read32();
-    } else {
-        if (timer_elapsed32(anim_sleep) > oled_timeout) {
-            oled_off();
-        } else {
-            if (timer_elapsed32(anim_timer) > ANIM_FRAME_DURATION) {
-                anim_timer = timer_read32();
-                bongocat_animation_phase(wpm);
-            }
-        }
-    }
+    return OLED_ROTATION_90;
 }
 
 void hk_oled_toggle_screen(void) {
-    hk_oled_mode = (hk_oled_mode == HK_OLED_MODE_BONGO) ? HK_OLED_MODE_STATUS : HK_OLED_MODE_BONGO;
-    oled_clear();
-    oled_on();
+    hk_oled_screen = (hk_oled_screen == HK_OLED_SCREEN_STATUS) ? HK_OLED_SCREEN_BLANK : HK_OLED_SCREEN_STATUS;
+    force_redraw = true;
+    blank_rendered = false;
 }
 
-void hk_oled_render_pointer_state(void) {
-    oled_write_P(pointer_kind_to_string(g_hk_state.main.pointer_kind), false);
+static void render_wpm(uint16_t wpm) {
+    char wpm_buf[4] = {0};
+    snprintf(wpm_buf, sizeof(wpm_buf), "%3u", wpm);
 
-    oled_write(format_3d(g_hk_state.display.last_mouse.x), false);
-    oled_write(format_3d(g_hk_state.display.last_mouse.y), false);
-    oled_write(format_3d(g_hk_state.display.last_mouse.h), false);
-    oled_write_ln(format_3d(g_hk_state.display.last_mouse.v), false);
-
-    if (g_hk_state.setting_default_scale) {
-        oled_write_P(PSTR("CUR D\xB1"), false);
-        oled_write(format_multiplier(g_hk_state.main.pointer_default_multiplier), false);
-    } else if (g_hk_state.setting_sniping_scale) {
-        oled_write_P(PSTR("CUR S\xB1"), false);
-        oled_write(format_multiplier(g_hk_state.main.pointer_sniping_multiplier), false);
-    } else {
-        switch (g_hk_state.main.cursor_mode) {
-            case CURSOR_MODE_DEFAULT:
-                oled_write_P(PSTR("CUR D\xB1"), false);
-                oled_write(format_multiplier(g_hk_state.main.pointer_default_multiplier), false);
-                break;
-            case CURSOR_MODE_SNIPING:
-                oled_write_P(PSTR("CUR S\xB1"), false);
-                oled_write(format_multiplier(g_hk_state.main.pointer_sniping_multiplier), false);
-                break;
-            default:
-                oled_write_P(PSTR("CUR ?\xB1"), false);
-                break;
-        }
-    }
-
-    oled_write_char('/', false);
-    oled_write(format_2d(g_hk_state.main.pointer_scroll_buffer_size), false);
-    oled_write_char(' ', false);
-
-    if (g_hk_state.main.drag_scroll) {
-        oled_write_P(LFSTR_ON, false);
-    } else {
-        oled_write_P(LFSTR_OFF, false);
-    }
-
-    switch (g_hk_state.main.scroll_lock) {
-        case SCROLL_LOCK_VERTICAL:
-            oled_write_ln_P(PSTR(" L:VT"), false);
-            break;
-        case SCROLL_LOCK_HORIZONTAL:
-            oled_write_ln_P(PSTR(" L:HO"), false);
-            break;
-        default:
-            oled_write_ln_P(PSTR(" L:NO"), false);
-            break;
-    }
+    oled_set_cursor(0, 0);
+    oled_write(wpm_buf, false);
+    oled_set_cursor(0, 1);
+    oled_write_P(PSTR("WPM"), false);
 }
 
-void hk_oled_render_keyinfo(void) {
-    oled_write_P(PSTR("Key  \xB1"), false);
+static void render_layer(uint8_t layer) {
+    char layer_buf[4] = {0};
+    snprintf(layer_buf, sizeof(layer_buf), "L%2u", layer);
 
-    oled_write_char('\xB8', false);
-    oled_write_char(to_1x(g_hk_state.display.last_pos.row), false);
-    oled_write_char('\xB9', false);
-    oled_write_char(to_1x(g_hk_state.display.last_pos.col), false);
-
-    oled_write_P(PSTR("\xBA\xBB"), false);
-    oled_write_char(to_1x(g_hk_state.display.last_kc >> 4), false);
-    oled_write_char(to_1x(g_hk_state.display.last_kc), false);
-
-    oled_write_P(PSTR(" "), false);
-    oled_write(g_hk_state.display.pressing_keys, false);
+    oled_set_cursor(0, 2);
+    oled_write(layer_buf, false);
 }
 
-void hk_oled_render_layerinfo(void) {
-    oled_write_P(PSTR("Layer\xB1"), false);
-    for (uint8_t i = 1; i < 8; i++) {
-        oled_write_char((layer_state_is(i) ? to_1x(i) : BL), false);
-    }
-    oled_write_char(' ', false);
-
+static void render_auto_mouse(bool enabled) {
 #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
-    oled_write_P(PSTR("\xC2\xC3"), false);
-    if (get_auto_mouse_enable()) {
-        oled_write_P(LFSTR_ON, false);
-    } else {
-        oled_write_P(LFSTR_OFF, false);
-    }
-
-    oled_write(format_3d(get_auto_mouse_timeout()), false);
-    oled_write_char('0', false);
+    oled_set_cursor(0, 3);
+    oled_write_P(enabled ? PSTR("AM ON") : PSTR("AMOFF"), false);
 #else
-    oled_write_P(PSTR("\xC2\xC3\xB4\xB5 --"), false);
+    (void)enabled;
 #endif
 }
 
-bool oled_task_user(void) {
-    if (hk_oled_mode == HK_OLED_MODE_STATUS && g_hk_state.init) {
-        hk_oled_render_keyinfo();
-        hk_oled_render_pointer_state();
-        hk_oled_render_layerinfo();
-        return true;
+static void render_status_screen(void) {
+    uint16_t wpm = get_current_wpm();
+    if (wpm > HK_WPM_MAX) {
+        wpm = HK_WPM_MAX;
     }
 
-    render_bongocat();
-    return true;
+    uint8_t layer = get_highest_layer(layer_state);
+    bool auto_mouse_enabled = false;
+#ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
+    auto_mouse_enabled = get_auto_mouse_enable();
+#endif
+
+    if (!force_redraw && wpm == last_wpm && layer == last_layer && auto_mouse_enabled == last_auto_mouse) {
+        return;
+    }
+
+    if (force_redraw) {
+        oled_clear();
+    }
+
+    render_wpm(wpm);
+    render_layer(layer);
+    render_auto_mouse(auto_mouse_enabled);
+
+    last_wpm = wpm;
+    last_layer = layer;
+    last_auto_mouse = auto_mouse_enabled;
+    force_redraw = false;
+}
+
+bool oled_task_user(void) {
+    oled_on();
+
+    if (hk_oled_screen == HK_OLED_SCREEN_BLANK) {
+        if (!blank_rendered) {
+            oled_clear();
+            blank_rendered = true;
+        }
+        return false;
+    }
+
+    blank_rendered = false;
+    render_status_screen();
+    return false;
 }
