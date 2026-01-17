@@ -8,9 +8,9 @@ layers:
   - [LCTL, A, S, D, F, G]
   - [H, J, K, L, ;, '''']
   - [LSFT, Z, X, C, V, B]
-  - ['[', ']', N, M, ',', .]
-  - [/, RSFT, MO( NAV), LGUI, LALT, 'LT( NAV,SPC)']
-  - ['LT( SYM,ENT)', BSPC, RGUI, MO( SYM)]
+  - [MO( NAV), MO( SYM), N, M, ',', .]
+  - [/, RSFT, MO( NAV), LGUI, LALT, SPC]
+  - [ENT, BSPC, RGUI, MO( SYM)]
   NAV:
   - - {t: LALT, h: sticky}
     - {t: ▽, type: trans}
@@ -125,7 +125,7 @@ layers:
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
   ADJ:
-  - - {t: ▽, type: trans}
+  - - QK CLEAR EEPROM
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
