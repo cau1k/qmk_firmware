@@ -2,7 +2,6 @@
 #include "quantum.h"
 #include "pointing_device.h"
 #include "wpm.h"
-#include <stdio.h>
 
 #define HK_WPM_MAX 999
 
@@ -11,18 +10,17 @@ typedef enum {
     HK_OLED_SCREEN_BLANK,
 } hk_oled_screen_t;
 
-static hk_oled_screen_t hk_oled_screen  = HK_OLED_SCREEN_STATUS;
-static uint16_t         last_wpm         = 0xFFFF;
-static uint8_t          last_layer       = 0xFF;
-static bool             last_auto_mouse  = false;
-static bool             force_redraw     = true;
-static bool             blank_rendered   = false;
-
+static hk_oled_screen_t hk_oled_screen = HK_OLED_SCREEN_STATUS;
+static uint16_t         last_wpm        = 0xFFFF;
+static uint8_t          last_layer      = 0xFF;
+static bool             last_auto_mouse = false;
+static bool             force_redraw    = true;
+static bool             blank_rendered  = false;
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     if (is_keyboard_left()) {
-        return OLED_ROTATION_270;
+        return rotation;
     }
-    return OLED_ROTATION_90;
+    return OLED_ROTATION_270;
 }
 
 void hk_oled_toggle_screen(void) {
@@ -33,7 +31,10 @@ void hk_oled_toggle_screen(void) {
 
 static void render_wpm(uint16_t wpm) {
     char wpm_buf[4] = {0};
-    snprintf(wpm_buf, sizeof(wpm_buf), "%3u", wpm);
+    wpm_buf[0] = (wpm >= 100) ? (char)('0' + (wpm / 100)) : ' ';
+    wpm_buf[1] = (wpm >= 10) ? (char)('0' + ((wpm / 10) % 10)) : ' ';
+    wpm_buf[2] = (char)('0' + (wpm % 10));
+    wpm_buf[3] = '\0';
 
     oled_set_cursor(0, 0);
     oled_write(wpm_buf, false);
@@ -42,8 +43,12 @@ static void render_wpm(uint16_t wpm) {
 }
 
 static void render_layer(uint8_t layer) {
-    char layer_buf[4] = {0};
-    snprintf(layer_buf, sizeof(layer_buf), "L%2u", layer);
+    char layer_buf[4] = {'L', '0', '0', '\0'};
+    if (layer > 99) {
+        layer = 99;
+    }
+    layer_buf[1] = (char)('0' + (layer / 10));
+    layer_buf[2] = (char)('0' + (layer % 10));
 
     oled_set_cursor(0, 2);
     oled_write(layer_buf, false);
@@ -89,6 +94,10 @@ static void render_status_screen(void) {
 }
 
 bool oled_task_user(void) {
+    if (is_keyboard_left()) {
+        return false;
+    }
+
     oled_on();
 
     if (hk_oled_screen == HK_OLED_SCREEN_BLANK) {
