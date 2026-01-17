@@ -5,18 +5,8 @@ layers:
   - ['6', '7', '8', '9', '0', '`']
   - [TAB, Q, W, E, R, T]
   - [Y, U, I, O, P, '-']
-  - - LCTL
-    - {t: A, h: LCTL}
-    - {t: S, h: LGUI}
-    - {t: D, h: LALT}
-    - {t: F, h: LSFT}
-    - G
-  - - H
-    - {t: J, h: RSFT}
-    - {t: K, h: RALT}
-    - {t: L, h: RGUI}
-    - {t: ;, h: RCTL}
-    - ''''
+  - [LCTL, A, S, D, F, G]
+  - [H, J, K, L, ;, '''']
   - [LSFT, Z, X, C, V, B]
   - ['[', ']', N, M, ',', .]
   - [/, RSFT, MO( NAV), LGUI, LALT, 'LT( NAV,SPC)']
