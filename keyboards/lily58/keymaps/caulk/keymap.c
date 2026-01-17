@@ -16,6 +16,7 @@
 
 #include QMK_KEYBOARD_H
 #include <stdio.h>
+#include "lib/lib8tion/lib8tion.h"
 #include "users/caulk/caulk.h"
 
 enum layer_number {
@@ -80,6 +81,55 @@ bool caps_word_press_user(uint16_t keycode) {
             return false;
     }
 }
+
+#ifdef RGB_MATRIX_ENABLE
+static void set_nav_rgb(void) {
+    uint8_t time = (uint8_t)(timer_read() >> 3);
+
+    for (uint8_t i = 0; i < RGB_MATRIX_LED_COUNT; i++) {
+        led_flags_t flags = g_led_config.flags[i];
+
+        if (HAS_FLAGS(flags, LED_FLAG_UNDERGLOW)) {
+            uint8_t wave = sin8((uint8_t)(time + (i * 8)));
+            uint8_t red = (uint16_t)wave * 140 / 255;
+            uint8_t blue = (uint16_t)(255 - wave) * 140 / 255;
+            rgb_matrix_set_color(i, red, 0, blue);
+        } else if (HAS_ANY_FLAGS(flags, (LED_FLAG_KEYLIGHT | LED_FLAG_MODIFIER | LED_FLAG_INDICATOR))) {
+            rgb_matrix_set_color(i, 255, 255, 255);
+        }
+    }
+}
+
+void keyboard_post_init_user(void) {
+    rgb_matrix_enable_noeeprom();
+    rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
+}
+
+bool rgb_matrix_indicators_user(void) {
+    if (!rgb_matrix_is_enabled()) {
+        return false;
+    }
+
+    switch (get_highest_layer(layer_state)) {
+        case _BASE:
+            rgb_matrix_set_color_all(0, 255, 0);
+            break;
+        case _NAV:
+            set_nav_rgb();
+            break;
+        case _SYM:
+            rgb_matrix_set_color_all(128, 0, 255);
+            break;
+        case _ADJ:
+            rgb_matrix_set_color_all(255, 80, 0);
+            break;
+        default:
+            break;
+    }
+
+    return true;
+}
+#endif
 
 #if defined(OLED_ENABLE) && !defined(HK_OLED_ENABLE)
 
