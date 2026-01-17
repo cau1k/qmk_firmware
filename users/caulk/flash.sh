@@ -27,15 +27,28 @@ find_mount() {
     done < <(find "$base" -maxdepth 1 -mindepth 1 -type d -print0 2>/dev/null)
   done
 
-  while read -r mount label; do
-    [[ -n "$mount" ]] || continue
+  while read -r devname label mount; do
+    [[ -n "$label" ]] || continue
     for want in "${LABELS[@]}"; do
-      if [[ "$label" == "$want" || "$mount" == *"$want"* ]]; then
-        echo "$mount"
-        return 0
+      if [[ "$label" == "$want" ]]; then
+        if [[ -n "$mount" ]]; then
+          echo "$mount"
+          return 0
+        fi
+
+        local dev="/dev/${devname}"
+        local output
+
+        if command -v udisksctl >/dev/null 2>&1; then
+          output=$(udisksctl mount -b "$dev" 2>/dev/null || true)
+          if [[ "$output" == *" at "* ]]; then
+            echo "${output##* at }"
+            return 0
+          fi
+        fi
       fi
     done
-  done < <(lsblk -rno MOUNTPOINT,LABEL)
+  done < <(lsblk -rno NAME,LABEL,MOUNTPOINT)
 
   return 1
 }
