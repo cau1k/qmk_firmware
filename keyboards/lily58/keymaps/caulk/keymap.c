@@ -26,9 +26,6 @@ enum layer_number {
     _ADJ,
 };
 
-#ifdef POINTING_DEVICE_ENABLE
-static uint32_t auto_mouse_layer_timer = 0;
-#endif
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
