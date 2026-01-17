@@ -71,7 +71,7 @@ flash_once() {
 }
 
 cd "$ROOT_DIR"
-qmk compile -kb "$KEYBOARD" -km "$KEYMAP" MASTER_SIDE=left POINTING_DEVICE_POSITION=left
+MASTER_SIDE=left POINTING_DEVICE_POSITION=left qmk compile -kb "$KEYBOARD" -km "$KEYMAP"
 
 if [[ ! -f "$UF2" ]]; then
   echo "UF2 not found at ${UF2}"
