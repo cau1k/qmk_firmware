@@ -125,11 +125,6 @@ static void set_nav_rgb(void) {
     }
 }
 
-void keyboard_post_init_keymap(void) {
-    rgb_matrix_enable_noeeprom();
-    rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
-}
-
 bool rgb_matrix_indicators_user(void) {
     if (!rgb_matrix_is_enabled()) {
         return false;
