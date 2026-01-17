@@ -584,6 +584,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
                 debug_hk_state_to_console(&g_hk_state);
             }
             break;
+        case HK_OLED_TOGGLE:
+            if (record->event.pressed) {
+#ifdef OLED_ENABLE
+                hk_oled_toggle_screen();
+#endif
+            }
+            break;
         case KC_UP:
         case KC_DOWN:
             if (!g_hk_state.setting_default_scale && !g_hk_state.setting_sniping_scale && !g_hk_state.setting_scroll_buffer) {

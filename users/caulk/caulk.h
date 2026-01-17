@@ -49,6 +49,9 @@ enum hk_keycodes {
 
     // Macro: LCTL + LALT + LGUI tap.
     CAG_MACRO, // 0x7E0C
+
+    // Toggles the OLED screen mode between bongocat and status.
+    HK_OLED_TOGGLE, // 0x7E0D
 };
 
 #define HK_SAVE      HK_SAVE_SETTINGS
@@ -63,6 +66,9 @@ enum hk_keycodes {
 #define HK_D_MODE_T  HK_DRAGSCROLL_MODE_TOGGLE
 #define HK_C_SCROLL  HK_CYCLE_SCROLL_LOCK
 #define HK_I_SCROLL  HK_INVERT_SCROLL_DIRECTION
+#define HK_OLED_TOG  HK_OLED_TOGGLE
+
+void hk_oled_toggle_screen(void);
 
 // #define ENABLE_DRIFT_DETECTION
 // #define ENABLE_PIMORONI_ADAPTIVE_MOTION
