@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define QUICK_TAP_TERM 0
 #define TAPPING_TERM 180
 #define TAPPING_TERM_PER_KEY
+#define SPLIT_LAYER_STATE_ENABLE
 
 #ifdef RGB_MATRIX_SPLIT
 #    undef RGB_MATRIX_SPLIT
