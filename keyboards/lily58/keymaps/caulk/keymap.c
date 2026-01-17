@@ -26,6 +26,10 @@ enum layer_number {
     _ADJ,
 };
 
+#ifdef POINTING_DEVICE_ENABLE
+static uint32_t auto_mouse_layer_timer = 0;
+#endif
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     /* BASE
@@ -35,35 +39,35 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * | Tab  |   Q  |   W  |   E  |   R  |   T  |                    |   Y  |   U  |   I  |   O  |   P  |  -   |
      * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
      * | Ctrl |   A  |   S  |   D  |   F  |   G  |-------.    ,-------|   H  |   J  |   K  |   L  |   ;  |  '   |
-     * |------+------+------+------+------+------|   [   |    |    ]  |------+------+------+------+------+------|
+     * |------+------+------+------+------+------|  NAV  |    |  SYM  |------+------+------+------+------+------|
+     * |------+------+------+------+------+------|       |    |       |------+------+------+------+------+------|
      * |LShift|   Z  |   X  |   C  |   V  |   B  |-------|    |-------|   N  |   M  |   ,  |   .  |   /  |RShift|
      * `-----------------------------------------/       /     \      \-----------------------------------------'
-     *                   | NAV  | LGUI | Alt  | /Space  /       \Enter \  |BackSP| RGUI | SYM  |
+     *                   |  [   | LGUI | Alt  | /Space  /       \Enter \  |BackSP| RGUI |   ]  |
      *                   |      |      |      |/       /         \      \ |      |      |      |
      *                   `-------------------''-------'           '------''--------------------'
      */
 
-    [_BASE] = LAYOUT(KC_ESC, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_GRV, KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_MINS, KC_LCTL, KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCLN, KC_QUOT, KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_LBRC, KC_RBRC, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_RSFT, MO(_NAV), KC_LGUI, KC_LALT, LT(_NAV, KC_SPC), LT(_SYM, KC_ENT), KC_BSPC, KC_RGUI, MO(_SYM)),
+    [_BASE] = LAYOUT(KC_ESC, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_GRV, KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_MINS, KC_LCTL, KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCLN, KC_QUOT, KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, MO(_NAV), MO(_SYM), KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_RSFT, KC_LBRC, KC_LGUI, KC_LALT, KC_SPC, KC_ENT, KC_BSPC, KC_RGUI, KC_RBRC),
 
     /* NAV */
-    [_NAV] = LAYOUT(    OSM(MOD_LALT), KC_TRNS,         KC_TRNS,         KC_TRNS,         KC_TRNS,         KC_TRNS,                           KC_TRNS,         KC_TRNS,         KC_TRNS,         KC_TRNS,         KC_TRNS,         KC_TRNS,
- KC_TRNS, KC_1, KC_2, KC_3, KC_4, KC_5, KC_HOME, KC_PGDN, KC_PGUP, KC_END, KC_INS, KC_DEL, KC_TRNS, KC_6, KC_7, KC_8, KC_9, KC_0, LCTL(KC_LEFT), KC_DOWN, KC_UP, LCTL(KC_RGHT), KC_BSPC, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS),
+    [_NAV] = LAYOUT(OSM(MOD_LALT), KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_1, KC_2, KC_3, KC_4, KC_5, KC_HOME, KC_PGDN, KC_PGUP, KC_END, KC_INS, KC_DEL, KC_TRNS, KC_6, KC_7, KC_8, KC_9, KC_0, LCTL(KC_LEFT), KC_DOWN, KC_UP, LCTL(KC_RGHT), KC_BSPC, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS),
 
     /* SYM */
     [_SYM] = LAYOUT(KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_GRV, KC_TILD, KC_QUOT, KC_DQUO, KC_TRNS, KC_TRNS, KC_PIPE, KC_BSLS, KC_MINS, KC_EQL, KC_PLUS, KC_TRNS, KC_EXLM, KC_AT, KC_HASH, KC_DLR, KC_PERC, KC_TRNS, KC_LBRC, KC_RBRC, KC_LPRN, KC_RPRN, KC_AMPR, CW_TOGG, KC_CIRC, KC_COLN, KC_SCLN, KC_UNDS, KC_TRNS, KC_TRNS, KC_TRNS, KC_QUES, KC_LCBR, KC_RCBR, KC_LABK, KC_RABK, KC_SLSH, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS),
 
     /* ADJ */
-    [_ADJ] = LAYOUT(
-        QK_CLEAR_EEPROM, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                              KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                                   KC_TRNS, KC_BTN4, KC_BTN5, KC_TRNS, KC_TRNS, KC_TRNS,
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                                   HK_S_MODE_T, KC_BTN1, KC_BTN3, KC_BTN2, KC_TRNS, KC_TRNS,
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                 KC_TRNS, HK_D_MODE_T, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-                                      KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,             KC_TRNS, KC_TRNS, KC_TRNS
-    )
-};
+    [_ADJ] = LAYOUT(QK_CLEAR_EEPROM, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_BTN4, KC_BTN5, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, HK_S_MODE_T, KC_BTN1, KC_BTN3, KC_BTN2, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, HK_D_MODE_T, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS)};
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     state = update_tri_layer_state(state, _NAV, _SYM, _ADJ);
+
+#ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
+    if (is_auto_mouse_active() && get_auto_mouse_layer() == _ADJ) {
+        state |= ((layer_state_t)1 << _ADJ);
+    }
+#endif
+
     return state;
 }
 
@@ -103,7 +107,7 @@ static void set_nav_rgb(void) {
 
         if (HAS_FLAGS(flags, LED_FLAG_UNDERGLOW)) {
             uint8_t wave = sin8((uint8_t)(time + (i * 8)));
-            uint8_t red = (uint16_t)wave * 140 / 255;
+            uint8_t red  = (uint16_t)wave * 140 / 255;
             uint8_t blue = (uint16_t)(255 - wave) * 140 / 255;
             rgb_matrix_set_color(i, red, 0, blue);
         } else if (HAS_ANY_FLAGS(flags, (LED_FLAG_KEYLIGHT | LED_FLAG_MODIFIER | LED_FLAG_INDICATOR))) {

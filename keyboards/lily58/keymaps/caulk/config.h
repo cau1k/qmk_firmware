@@ -35,6 +35,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define SPLIT_TRANSPORT_MIRROR
 #define POINTING_DEVICE_AUTO_MOUSE_ENABLE
 #define AUTO_MOUSE_DEFAULT_LAYER 3
+#define AUTO_MOUSE_THRESHOLD 0
+#define AUTO_MOUSE_DELAY 0
+#define AUTO_MOUSE_TIME 1000
+#define AUTO_MOUSE_DEBOUNCE 10
 
 #ifdef RGB_MATRIX_SPLIT
 #    undef RGB_MATRIX_SPLIT
