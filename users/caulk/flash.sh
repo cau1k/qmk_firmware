@@ -7,16 +7,36 @@ KEYBOARD="lily58/rev1"
 KEYMAP="caulk"
 UF2="${ROOT_DIR}/lily58_rev1_caulk.uf2"
 LABELS=("RPI-RP2" "RP2040")
+MOUNT_BASES=("/run/media/$USER" "/media/$USER" "/media" "/mnt")
 
 find_mount() {
-  while read -r label mount; do
+  local base
+  local mount
+  local name
+
+  for base in "${MOUNT_BASES[@]}"; do
+    [[ -d "$base" ]] || continue
+    while IFS= read -r -d '' mount; do
+      name="${mount##*/}"
+      for want in "${LABELS[@]}"; do
+        if [[ "$name" == "$want"* ]]; then
+          echo "$mount"
+          return 0
+        fi
+      done
+    done < <(find "$base" -maxdepth 1 -mindepth 1 -type d -print0 2>/dev/null)
+  done
+
+  while read -r mount label; do
+    [[ -n "$mount" ]] || continue
     for want in "${LABELS[@]}"; do
-      if [[ "$label" == "$want" && -n "$mount" ]]; then
+      if [[ "$label" == "$want" || "$mount" == *"$want"* ]]; then
         echo "$mount"
         return 0
       fi
     done
-  done < <(lsblk -rno LABEL,MOUNTPOINT)
+  done < <(lsblk -rno MOUNTPOINT,LABEL)
+
   return 1
 }
 
