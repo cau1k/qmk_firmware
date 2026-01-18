@@ -66,21 +66,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 //    ┌─────────┬─────┬─────┬─────┬─────┬──────────┐               ┌─────┬─────┬─────┬─────┬─────┬─────┐
-//    │         │     │     │     │     │          │               │     │     │     │     │     │     │
+//    │ CW_TOGG │     │     │     │     │          │               │     │     │     │     │     │     │
 //    ├─────────┼─────┼─────┼─────┼─────┼──────────┤               ├─────┼─────┼─────┼─────┼─────┼─────┤
 //    │         │  `  │  ~  │  *  │  &  │          │               │     │  (  │  )  │     │     │  \  │
 //    ├─────────┼─────┼─────┼─────┼─────┼──────────┤               ├─────┼─────┼─────┼─────┼─────┼─────┤
 //    │         │  !  │  @  │  #  │  $  │    %     │               │     │  [  │  ]  │     │     │  |  │
 //    ├─────────┼─────┼─────┼─────┼─────┼──────────┼─────┐   ┌─────┼─────┼─────┼─────┼─────┼─────┼─────┤
-//    │ CW_TOGG │  ^  │  -  │  +  │  =  │ UC(L'—') │     │   │     │     │  {  │  }  │  <  │  >  │  /  │
+//    │         │  ^  │  -  │  +  │  =  │ UC(L'—') │     │   │     │     │  {  │  }  │  <  │  >  │  /  │
 //    └─────────┴─────┼─────┼─────┼─────┼──────────┼─────┘   └─────┼─────┼─────┼─────┼─────┼─────┴─────┘
 //                    │     │     │     │          │               │     │     │     │     │
 //                    └─────┴─────┴─────┴──────────┘               └─────┴─────┴─────┴─────┘
 [_SYM] = LAYOUT(
-  KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS  ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
+  CW_TOGG , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS  ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
   KC_TRNS , KC_GRV  , KC_TILD , KC_ASTR , KC_AMPR , KC_TRNS  ,                         KC_TRNS , KC_LPRN , KC_RPRN , KC_TRNS , KC_TRNS , KC_BSLS,
   KC_TRNS , KC_EXLM , KC_AT   , KC_HASH , KC_DLR  , KC_PERC  ,                         KC_TRNS , KC_LBRC , KC_RBRC , KC_TRNS , KC_TRNS , KC_PIPE,
-  CW_TOGG , KC_CIRC , KC_MINS , KC_PLUS , KC_EQL  , UC(L'—') , KC_TRNS ,     KC_TRNS , KC_TRNS , KC_LCBR , KC_RCBR , KC_LABK , KC_RABK , KC_SLSH,
+  KC_TRNS , KC_CIRC , KC_MINS , KC_PLUS , KC_EQL  , UC(L'—') , KC_TRNS ,     KC_TRNS , KC_TRNS , KC_LCBR , KC_RCBR , KC_LABK , KC_RABK , KC_SLSH,
                       KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS  ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS
 ),
 
