@@ -65,42 +65,42 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                             KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS       , KC_DEL  , KC_TRNS , KC_TRNS
 ),
 
-//    ┌─────────┬─────┬─────┬─────┬─────┬─────┐               ┌─────┬─────┬─────┬─────┬─────┬─────┐
-//    │         │     │     │     │     │     │               │     │     │     │     │     │     │
-//    ├─────────┼─────┼─────┼─────┼─────┼─────┤               ├─────┼─────┼─────┼─────┼─────┼─────┤
-//    │         │  `  │  ~  │  '  │  "  │     │               │     │  |  │  \  │  -  │  =  │  +  │
-//    ├─────────┼─────┼─────┼─────┼─────┼─────┤               ├─────┼─────┼─────┼─────┼─────┼─────┤
-//    │         │  !  │  @  │  #  │  $  │  %  │               │     │  [  │  ]  │  (  │  )  │  &  │
-//    ├─────────┼─────┼─────┼─────┼─────┼─────┼─────┐   ┌─────┼─────┼─────┼─────┼─────┼─────┼─────┤
-//    │ CW_TOGG │  ^  │  :  │  ;  │  _  │     │     │   │     │  ?  │  {  │  }  │  <  │  >  │  /  │
-//    └─────────┴─────┼─────┼─────┼─────┼─────┼─────┘   └─────┼─────┼─────┼─────┼─────┼─────┴─────┘
-//                    │     │     │     │     │               │     │     │     │     │
-//                    └─────┴─────┴─────┴─────┘               └─────┴─────┴─────┴─────┘
+//    ┌─────────┬─────┬─────┬─────┬─────┬──────────┐               ┌─────┬─────┬─────┬─────┬─────┬─────┐
+//    │         │     │     │     │     │          │               │     │     │     │     │     │     │
+//    ├─────────┼─────┼─────┼─────┼─────┼──────────┤               ├─────┼─────┼─────┼─────┼─────┼─────┤
+//    │         │  `  │  ~  │  *  │  &  │          │               │     │  |  │  \  │  -  │  =  │  +  │
+//    ├─────────┼─────┼─────┼─────┼─────┼──────────┤               ├─────┼─────┼─────┼─────┼─────┼─────┤
+//    │         │  !  │  @  │  #  │  $  │    %     │               │     │  [  │  ]  │  (  │  )  │     │
+//    ├─────────┼─────┼─────┼─────┼─────┼──────────┼─────┐   ┌─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+//    │ CW_TOGG │  ^  │  -  │  +  │  =  │ UC(L'–') │     │   │     │     │  {  │  }  │  <  │  >  │  /  │
+//    └─────────┴─────┼─────┼─────┼─────┼──────────┼─────┘   └─────┼─────┼─────┼─────┼─────┼─────┴─────┘
+//                    │     │     │     │          │               │     │     │     │     │
+//                    └─────┴─────┴─────┴──────────┘               └─────┴─────┴─────┴─────┘
 [_SYM] = LAYOUT(
-  KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
-  KC_TRNS , KC_GRV  , KC_TILD , KC_QUOT , KC_DQUO , KC_TRNS ,                         KC_TRNS , KC_PIPE , KC_BSLS , KC_MINS , KC_EQL  , KC_PLUS,
-  KC_TRNS , KC_EXLM , KC_AT   , KC_HASH , KC_DLR  , KC_PERC ,                         KC_TRNS , KC_LBRC , KC_RBRC , KC_LPRN , KC_RPRN , KC_AMPR,
-  CW_TOGG , KC_CIRC , KC_COLN , KC_SCLN , KC_UNDS , KC_TRNS , KC_TRNS ,     KC_TRNS , KC_QUES , KC_LCBR , KC_RCBR , KC_LABK , KC_RABK , KC_SLSH,
-                      KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS
+  KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS  ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
+  KC_TRNS , KC_GRV  , KC_TILD , KC_ASTR , KC_AMPR , KC_TRNS  ,                         KC_TRNS , KC_PIPE , KC_BSLS , KC_MINS , KC_EQL  , KC_PLUS,
+  KC_TRNS , KC_EXLM , KC_AT   , KC_HASH , KC_DLR  , KC_PERC  ,                         KC_TRNS , KC_LBRC , KC_RBRC , KC_LPRN , KC_RPRN , KC_TRNS,
+  CW_TOGG , KC_CIRC , KC_MINS , KC_PLUS , KC_EQL  , UC(L'–') , KC_TRNS ,     KC_TRNS , KC_TRNS , KC_LCBR , KC_RCBR , KC_LABK , KC_RABK , KC_SLSH,
+                      KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS  ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS
 ),
 
-//    ┌─────────────────┬────────────────┬─────┬─────┬─────┬─────┐               ┌─────────────┬─────────────┬──────┬──────┬─────┬─────┐
-//    │ QK_CLEAR_EEPROM │ HK_OLED_TOGGLE │     │     │     │     │               │             │             │      │      │     │     │
-//    ├─────────────────┼────────────────┼─────┼─────┼─────┼─────┤               ├─────────────┼─────────────┼──────┼──────┼─────┼─────┤
-//    │                 │                │     │     │     │     │               │             │    btn4     │ btn5 │      │     │     │
-//    ├─────────────────┼────────────────┼─────┼─────┼─────┼─────┤               ├─────────────┼─────────────┼──────┼──────┼─────┼─────┤
-//    │                 │                │     │     │     │     │               │ HK_S_MODE_T │    btn1     │ btn3 │ btn2 │     │     │
-//    ├─────────────────┼────────────────┼─────┼─────┼─────┼─────┼─────┐   ┌─────┼─────────────┼─────────────┼──────┼──────┼─────┼─────┤
-//    │                 │                │     │     │     │     │     │   │     │             │ HK_D_MODE_T │      │      │     │     │
-//    └─────────────────┴────────────────┼─────┼─────┼─────┼─────┼─────┘   └─────┼─────────────┼─────────────┼──────┼──────┼─────┴─────┘
-//                                       │     │     │     │     │               │             │             │      │      │
-//                                       └─────┴─────┴─────┴─────┘               └─────────────┴─────────────┴──────┴──────┘
+//    ┌─────────────────┬────────────────┬─────┬─────┬─────┬─────┐               ┌───────────┬─────────────┬──────┬──────┬─────┬─────┐
+//    │ QK_CLEAR_EEPROM │ HK_OLED_TOGGLE │     │     │     │     │               │           │             │      │      │     │     │
+//    ├─────────────────┼────────────────┼─────┼─────┼─────┼─────┤               ├───────────┼─────────────┼──────┼──────┼─────┼─────┤
+//    │                 │                │     │     │     │     │               │           │    btn4     │ btn5 │      │     │     │
+//    ├─────────────────┼────────────────┼─────┼─────┼─────┼─────┤               ├───────────┼─────────────┼──────┼──────┼─────┼─────┤
+//    │                 │                │     │     │     │     │               │ HK_S_MODE │    btn1     │ btn3 │ btn2 │     │     │
+//    ├─────────────────┼────────────────┼─────┼─────┼─────┼─────┼─────┐   ┌─────┼───────────┼─────────────┼──────┼──────┼─────┼─────┤
+//    │                 │                │     │     │     │     │     │   │     │           │ HK_D_MODE_T │      │      │     │     │
+//    └─────────────────┴────────────────┼─────┼─────┼─────┼─────┼─────┘   └─────┼───────────┼─────────────┼──────┼──────┼─────┴─────┘
+//                                       │     │     │     │     │               │           │             │      │      │
+//                                       └─────┴─────┴─────┴─────┘               └───────────┴─────────────┴──────┴──────┘
 [_ADJ] = LAYOUT(
-  QK_CLEAR_EEPROM , HK_OLED_TOGGLE , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS     , KC_TRNS     , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
-  KC_TRNS         , KC_TRNS        , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS     , KC_BTN4     , KC_BTN5 , KC_TRNS , KC_TRNS , KC_TRNS,
-  KC_TRNS         , KC_TRNS        , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         HK_S_MODE   , KC_BTN1     , KC_BTN3 , KC_BTN2 , KC_TRNS , KC_TRNS,
-  KC_TRNS         , KC_TRNS        , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,     KC_TRNS , KC_TRNS     , HK_D_MODE_T , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
-                                     KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS     , KC_TRNS     , KC_TRNS , KC_TRNS
+  QK_CLEAR_EEPROM , HK_OLED_TOGGLE , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS   , KC_TRNS     , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
+  KC_TRNS         , KC_TRNS        , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS   , KC_BTN4     , KC_BTN5 , KC_TRNS , KC_TRNS , KC_TRNS,
+  KC_TRNS         , KC_TRNS        , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         HK_S_MODE , KC_BTN1     , KC_BTN3 , KC_BTN2 , KC_TRNS , KC_TRNS,
+  KC_TRNS         , KC_TRNS        , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,     KC_TRNS , KC_TRNS   , HK_D_MODE_T , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
+                                     KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS   , KC_TRNS     , KC_TRNS , KC_TRNS
 )
 };
 
