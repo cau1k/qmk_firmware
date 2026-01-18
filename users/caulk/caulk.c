@@ -93,7 +93,7 @@ static void hk_configure_pimoroni_common(hk_pointer_state_t* state) {
 static void hk_configure_trackpoint_common(hk_pointer_state_t* state) {
     state->pointer_default_multiplier = 2.0;
     state->pointer_sniping_multiplier = 1.0;
-    state->pointer_scroll_buffer_size = 5;
+    state->pointer_scroll_buffer_size = 10;
 }
 
 static void hk_configure_cirque_common(hk_pointer_state_t* state) {
@@ -280,7 +280,12 @@ void hk_process_scroll(const hk_pointer_state_t* pointer_state, report_mouse_t* 
         mouse_report->y = 0;
     }
 
-    if (pointer_state->scroll_direction_inverted) {
+    bool invert = pointer_state->scroll_direction_inverted;
+    if (pointer_state->drag_scroll && pointer_state->pointer_kind == POINTER_KIND_TRACKPOINT) {
+        invert = !invert;
+    }
+
+    if (invert) {
         mouse_report->h = -mouse_report->h;
         mouse_report->v = -mouse_report->v;
     }
@@ -749,6 +754,16 @@ void keyboard_post_init_user(void) {
     } else {
         g_hk_state = init_state();
         deserialize_eeconfig_to_state(&hk_eeprom_config);
+        if (hk_eeprom_config.version == 100) {
+            if (g_hk_state.main.pointer_kind == POINTER_KIND_TRACKPOINT && g_hk_state.main.pointer_scroll_buffer_size == 5) {
+                g_hk_state.main.pointer_scroll_buffer_size = 10;
+            }
+            if (g_hk_state.peripheral.pointer_kind == POINTER_KIND_TRACKPOINT && g_hk_state.peripheral.pointer_scroll_buffer_size == 5) {
+                g_hk_state.peripheral.pointer_scroll_buffer_size = 10;
+            }
+            hk_eeprom_config.version = 101;
+            write_eeconfig();
+        }
         debug_hk_state_to_console(&g_hk_state);
     }
 
@@ -771,7 +786,7 @@ void                       eeconfig_init_user(void) {
 
     memset(&hk_eeprom_config, 0, sizeof(hk_eeprom_config_t));
     hk_eeprom_config.check = true;
-    hk_eeprom_config.version = 100; // Increment this when changing the eeprom config structure.
+    hk_eeprom_config.version = 101; // Increment this when changing the eeprom config structure.
     serialize_state_to_eeconfig(&hk_eeprom_config);
 
     eeconfig_init_keymap();

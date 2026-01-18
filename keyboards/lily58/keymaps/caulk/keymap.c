@@ -98,7 +98,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_ADJ] = LAYOUT(
   QK_CLEAR_EEPROM , HK_OLED_TOGGLE , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS     , KC_TRNS     , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
   KC_TRNS         , KC_TRNS        , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS     , KC_BTN4     , KC_BTN5 , KC_TRNS , KC_TRNS , KC_TRNS,
-  KC_TRNS         , KC_TRNS        , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         HK_S_MODE_T , KC_BTN1     , KC_BTN3 , KC_BTN2 , KC_TRNS , KC_TRNS,
+  KC_TRNS         , KC_TRNS        , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         HK_S_MODE   , KC_BTN1     , KC_BTN3 , KC_BTN2 , KC_TRNS , KC_TRNS,
   KC_TRNS         , KC_TRNS        , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,     KC_TRNS , KC_TRNS     , HK_D_MODE_T , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
                                      KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS     , KC_TRNS     , KC_TRNS , KC_TRNS
 )
