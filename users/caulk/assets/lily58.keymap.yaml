@@ -8,7 +8,7 @@ layers:
   - [LCTL, A, S, D, F, G]
   - [H, J, K, L, ;, '''']
   - [LSFT, Z, X, C, V, B]
-  - [MO( NAV), MO( SYM), N, M, ',', .]
+  - [MO( SYM), MO( NAV), N, M, ',', .]
   - [/, RSFT, MO( NAV), LGUI, LALT, SPC]
   - [ENT, BSPC, RGUI, MO( SYM)]
   NAV:
@@ -37,12 +37,24 @@ layers:
     - '8'
     - '9'
     - '0'
-  - - Ctl+LEFT
+  - - LEFT
     - DOWN
     - UP
+    - RGHT
+    - ESC
+    - {t: ▽, type: trans}
+  - - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+  - - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+    - Ctl+LEFT
+    - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
     - Ctl+RGHT
-    - BSPC
-    - {t: ▽, type: trans}
   - - {t: ▽, type: trans}
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
@@ -50,19 +62,7 @@ layers:
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
   - - {t: ▽, type: trans}
-    - {t: ▽, type: trans}
-    - {t: ▽, type: trans}
-    - {t: ▽, type: trans}
-    - {t: ▽, type: trans}
-    - {t: ▽, type: trans}
-  - - {t: ▽, type: trans}
-    - {t: ▽, type: trans}
-    - {t: ▽, type: trans}
-    - {t: ▽, type: trans}
-    - {t: ▽, type: trans}
-    - {t: ▽, type: trans}
-  - - {t: ▽, type: trans}
-    - {t: ▽, type: trans}
+    - DEL
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
   SYM:
@@ -81,8 +81,8 @@ layers:
   - - {t: ▽, type: trans}
     - '`'
     - '~'
-    - ''''
-    - '"'
+    - '*'
+    - '&'
     - {t: ▽, type: trans}
   - - {t: ▽, type: trans}
     - '|'
@@ -101,16 +101,11 @@ layers:
     - ']'
     - (
     - )
-    - '&'
-  - - CW TOGG
-    - ^
-    - ':'
-    - ;
-    - _
     - {t: ▽, type: trans}
+  - [CW TOGG, ^, '-', +, '=', UC(L'–')]
   - - {t: ▽, type: trans}
     - {t: ▽, type: trans}
-    - '?'
+    - {t: ▽, type: trans}
     - '{'
     - '}'
     - <
@@ -126,7 +121,7 @@ layers:
     - {t: ▽, type: trans}
   ADJ:
   - - QK CLEAR EEPROM
-    - {t: ▽, type: trans}
+    - HK OLED TOGGLE
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
@@ -155,7 +150,7 @@ layers:
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
-  - - HK S MODE T
+  - - HK S MODE
     - BTN1
     - BTN3
     - BTN2
