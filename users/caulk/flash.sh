@@ -6,8 +6,16 @@ ROOT_DIR="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 KEYBOARD="lily58/rev1"
 KEYMAP="caulk"
 UF2="${ROOT_DIR}/lily58_rev1_caulk.uf2"
+ASSETS_SCRIPT="${SCRIPT_DIR}/assets/regenerate.sh"
 LABELS=("RPI-RP2" "RP2040")
 MOUNT_BASES=("/run/media/$USER" "/media/$USER" "/media" "/mnt")
+
+REGEN_ASSETS=0
+for arg in "$@"; do
+  if [[ "$arg" == "--regen-assets" ]]; then
+    REGEN_ASSETS=1
+  fi
+done
 
 find_mount() {
   local base
@@ -79,6 +87,16 @@ flash_once() {
 
 cd "$ROOT_DIR"
 MASTER_SIDE=left POINTING_DEVICE_POSITION=left qmk compile -kb "$KEYBOARD" -km "$KEYMAP"
+
+if (( REGEN_ASSETS == 1 )); then
+  if [[ -f "$ASSETS_SCRIPT" ]]; then
+    echo "Regenerating keymap assets..."
+    bash "$ASSETS_SCRIPT"
+  else
+    echo "Assets script not found at ${ASSETS_SCRIPT}"
+    exit 1
+  fi
+fi
 
 if [[ ! -f "$UF2" ]]; then
   echo "UF2 not found at ${UF2}"
