@@ -81,10 +81,10 @@ layers:
     - '|'
   - - {t: ▽, type: trans}
     - {t: ▽, type: trans}
-    - {t: ▽, type: trans}
     - (
     - )
     - \
+    - {t: ▽, type: trans}
   - - {t: ▽, type: trans}
     - '!'
     - '@'
@@ -93,24 +93,24 @@ layers:
     - '%'
   - - {t: ▽, type: trans}
     - {t: ▽, type: trans}
-    - {t: ▽, type: trans}
     - '['
     - ']'
     - '|'
+    - {t: ▽, type: trans}
   - - {t: ▽, type: trans}
     - ^
     - '-'
     - +
     - '='
-    - UC(L'—')
+    - \
   - - {t: ▽, type: trans}
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
-    - {t: ▽, type: trans}
     - '{'
-  - - '}'
-    - /
+    - '}'
+  - - /
+    - {t: ▽, type: trans}
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
