@@ -65,23 +65,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                             KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS       , KC_DEL  , KC_TRNS , KC_TRNS
 ),
 
-//    ┌─────────┬─────┬─────┬─────┬─────┬──────────┐               ┌─────┬─────┬─────┬─────┬─────┬─────┐
-//    │ CW_TOGG │     │     │     │     │          │               │     │     │     │     │     │     │
-//    ├─────────┼─────┼─────┼─────┼─────┼──────────┤               ├─────┼─────┼─────┼─────┼─────┼─────┤
-//    │         │  `  │  ~  │  *  │  &  │    |     │               │     │     │     │  (  │  )  │  \  │
-//    ├─────────┼─────┼─────┼─────┼─────┼──────────┤               ├─────┼─────┼─────┼─────┼─────┼─────┤
-//    │         │  !  │  @  │  #  │  $  │    %     │               │     │     │     │  [  │  ]  │  |  │
-//    ├─────────┼─────┼─────┼─────┼─────┼──────────┼─────┐   ┌─────┼─────┼─────┼─────┼─────┼─────┼─────┤
-//    │         │  ^  │  -  │  +  │  =  │ UC(L'—') │     │   │     │     │     │     │  {  │  }  │  /  │
-//    └─────────┴─────┼─────┼─────┼─────┼──────────┼─────┘   └─────┼─────┼─────┼─────┼─────┼─────┴─────┘
-//                    │     │     │     │          │               │     │     │     │     │
-//                    └─────┴─────┴─────┴──────────┘               └─────┴─────┴─────┴─────┘
+//    ┌─────────┬─────┬─────┬─────┬─────┬─────┐               ┌─────┬─────┬─────┬─────┬─────┬─────┐
+//    │ CW_TOGG │     │     │     │     │     │               │     │     │     │     │     │     │
+//    ├─────────┼─────┼─────┼─────┼─────┼─────┤               ├─────┼─────┼─────┼─────┼─────┼─────┤
+//    │         │  `  │  ~  │  *  │  &  │  |  │               │     │     │  (  │  )  │  \  │     │
+//    ├─────────┼─────┼─────┼─────┼─────┼─────┤               ├─────┼─────┼─────┼─────┼─────┼─────┤
+//    │         │  !  │  @  │  #  │  $  │  %  │               │     │     │  [  │  ]  │  |  │     │
+//    ├─────────┼─────┼─────┼─────┼─────┼─────┼─────┐   ┌─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+//    │         │  ^  │  -  │  +  │  =  │  \  │     │   │     │     │     │  {  │  }  │  /  │     │
+//    └─────────┴─────┼─────┼─────┼─────┼─────┼─────┘   └─────┼─────┼─────┼─────┼─────┼─────┴─────┘
+//                    │     │     │     │     │               │     │     │     │     │
+//                    └─────┴─────┴─────┴─────┘               └─────┴─────┴─────┴─────┘
 [_SYM] = LAYOUT(
-  CW_TOGG , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS  ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
-  KC_TRNS , KC_GRV  , KC_TILD , KC_ASTR , KC_AMPR , KC_PIPE  ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_LPRN , KC_RPRN , KC_BSLS,
-  KC_TRNS , KC_EXLM , KC_AT   , KC_HASH , KC_DLR  , KC_PERC  ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_LBRC , KC_RBRC , KC_PIPE,
-  KC_TRNS , KC_CIRC , KC_MINS , KC_PLUS , KC_EQL  , UC(L'—') , KC_TRNS ,     KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_LCBR , KC_RCBR , KC_SLSH,
-                      KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS  ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS
+  CW_TOGG , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
+  KC_TRNS , KC_GRV  , KC_TILD , KC_ASTR , KC_AMPR , KC_PIPE ,                         KC_TRNS , KC_TRNS , KC_LPRN , KC_RPRN , KC_BSLS , KC_TRNS,
+  KC_TRNS , KC_EXLM , KC_AT   , KC_HASH , KC_DLR  , KC_PERC ,                         KC_TRNS , KC_TRNS , KC_LBRC , KC_RBRC , KC_PIPE , KC_TRNS,
+  KC_TRNS , KC_CIRC , KC_MINS , KC_PLUS , KC_EQL  , KC_BSLS , KC_TRNS ,     KC_TRNS , KC_TRNS , KC_TRNS , KC_LCBR , KC_RCBR , KC_SLSH , KC_TRNS,
+                      KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS
 ),
 
 //    ┌─────────────────┬────────────────┬─────┬─────┬─────┬─────┐               ┌───────────┬─────────────┬──────┬──────┬─────┬─────┐
