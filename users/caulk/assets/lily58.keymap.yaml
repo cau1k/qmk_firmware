@@ -4,9 +4,9 @@ layers:
   - [ESC, '1', '2', '3', '4', '5']
   - ['6', '7', '8', '9', '0', '`']
   - ['LT( SYM,TAB)', Q, W, E, R, T]
-  - [Y, U, I, O, P, 'LT( SYM,MINS)']
+  - [Y, U, I, O, P, 'LT( NAV,MINS)']
   - [MO( NAV), A, S, D, F, G]
-  - [H, J, K, L, ;, 'LT( NAV,QUOT)']
+  - [H, J, K, L, ;, 'LT( SYM,QUOT)']
   - [LSFT, Z, X, C, V, B]
   - [MO( SYM), MO( NAV), N, M, ',', .]
   - [/, RSFT, LCTL, LGUI, LALT, SPC]
@@ -25,25 +25,25 @@ layers:
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
   - - {t: ▽, type: trans}
-    - '-'
-    - '1'
-    - '2'
-    - '3'
-    - '%'
+    - F1
+    - F2
+    - F3
+    - F4
+    - PSCR
   - [HOME, PGDN, PGUP, END, INS, DEL]
   - - {t: ▽, type: trans}
-    - +
-    - '4'
-    - '5'
-    - '6'
+    - F5
+    - F6
+    - F7
+    - F8
     - '0'
   - [LEFT, DOWN, UP, RGHT, ESC, '~']
   - - {t: ▽, type: trans}
-    - '='
-    - '7'
-    - '8'
-    - '9'
-    - .
+    - F9
+    - F10
+    - F11
+    - F12
+    - PAUS
   - - {t: ▽, type: trans}
     - {t: ▽, type: trans}
     - Ctl+LEFT

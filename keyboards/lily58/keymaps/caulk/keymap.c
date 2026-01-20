@@ -46,22 +46,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                             KC_LCTL , KC_LGUI , KC_LALT , KC_SPC ,                           KC_ENT , KC_BSPC , KC_LGUI , KC_LCTL
 ),
 
-//    ┌───────────────┬─────┬─────┬─────┬─────┬─────┐               ┌────────────┬──────┬──────┬────────────┬─────┬─────┐
-//    │ OSM(MOD_LALT) │     │     │     │     │     │               │            │      │      │            │     │     │
-//    ├───────────────┼─────┼─────┼─────┼─────┼─────┤               ├────────────┼──────┼──────┼────────────┼─────┼─────┤
-//    │               │  -  │  1  │  2  │  3  │  %  │               │    home    │ pgdn │ pgup │    end     │ ins │ del │
-//    ├───────────────┼─────┼─────┼─────┼─────┼─────┤               ├────────────┼──────┼──────┼────────────┼─────┼─────┤
-//    │               │  +  │  4  │  5  │  6  │  0  │               │    left    │ down │  up  │    rght    │ esc │  ~  │
-//    ├───────────────┼─────┼─────┼─────┼─────┼─────┼─────┐   ┌─────┼────────────┼──────┼──────┼────────────┼─────┼─────┤
-//    │               │  =  │  7  │  8  │  9  │  .  │     │   │     │ LCTL(left) │      │      │ LCTL(rght) │     │     │
-//    └───────────────┴─────┼─────┼─────┼─────┼─────┼─────┘   └─────┼────────────┼──────┼──────┼────────────┼─────┴─────┘
-//                          │     │     │     │     │               │            │ del  │      │            │
-//                          └─────┴─────┴─────┴─────┘               └────────────┴──────┴──────┴────────────┘
+//    ┌───────────────┬─────┬─────┬─────┬─────┬──────┐               ┌────────────┬──────┬──────┬────────────┬─────┬─────┐
+//    │ OSM(MOD_LALT) │     │     │     │     │      │               │            │      │      │            │     │     │
+//    ├───────────────┼─────┼─────┼─────┼─────┼──────┤               ├────────────┼──────┼──────┼────────────┼─────┼─────┤
+//    │               │ f1  │ f2  │ f3  │ f4  │ pscr │               │    home    │ pgdn │ pgup │    end     │ ins │ del │
+//    ├───────────────┼─────┼─────┼─────┼─────┼──────┤               ├────────────┼──────┼──────┼────────────┼─────┼─────┤
+//    │               │ f5  │ f6  │ f7  │ f8  │  0   │               │    left    │ down │  up  │    rght    │ esc │  ~  │
+//    ├───────────────┼─────┼─────┼─────┼─────┼──────┼─────┐   ┌─────┼────────────┼──────┼──────┼────────────┼─────┼─────┤
+//    │               │ f9  │ f10 │ f11 │ f12 │ paus │     │   │     │ LCTL(left) │      │      │ LCTL(rght) │     │     │
+//    └───────────────┴─────┼─────┼─────┼─────┼──────┼─────┘   └─────┼────────────┼──────┼──────┼────────────┼─────┴─────┘
+//                          │     │     │     │      │               │            │ del  │      │            │
+//                          └─────┴─────┴─────┴──────┘               └────────────┴──────┴──────┴────────────┘
 [_NAV] = LAYOUT(
   OSM(MOD_LALT) , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS       , KC_TRNS , KC_TRNS , KC_TRNS       , KC_TRNS , KC_TRNS,
-  KC_TRNS       , KC_MINS , KC_1    , KC_2    , KC_3    , KC_PERC ,                         KC_HOME       , KC_PGDN , KC_PGUP , KC_END        , KC_INS  , KC_DEL ,
-  KC_TRNS       , KC_PLUS , KC_4    , KC_5    , KC_6    , KC_0    ,                         KC_LEFT       , KC_DOWN , KC_UP   , KC_RGHT       , KC_ESC  , KC_TILD,
-  KC_TRNS       , KC_EQL  , KC_7    , KC_8    , KC_9    , KC_DOT  , KC_TRNS ,     KC_TRNS , LCTL(KC_LEFT) , KC_TRNS , KC_TRNS , LCTL(KC_RGHT) , KC_TRNS , KC_TRNS,
+  KC_TRNS       , KC_F1   , KC_F2   , KC_F3   , KC_F4   , KC_PSCR ,                         KC_HOME       , KC_PGDN , KC_PGUP , KC_END        , KC_INS  , KC_DEL ,
+  KC_TRNS       , KC_F5   , KC_F6   , KC_F7   , KC_F8   , KC_0    ,                         KC_LEFT       , KC_DOWN , KC_UP   , KC_RGHT       , KC_ESC  , KC_TILD,
+  KC_TRNS       , KC_F9   , KC_F10  , KC_F11  , KC_F12  , KC_PAUS , KC_TRNS ,     KC_TRNS , LCTL(KC_LEFT) , KC_TRNS , KC_TRNS , LCTL(KC_RGHT) , KC_TRNS , KC_TRNS,
                             KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS       , KC_DEL  , KC_TRNS , KC_TRNS
 ),
 
