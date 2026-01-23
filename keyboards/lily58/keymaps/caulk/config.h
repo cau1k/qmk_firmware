@@ -51,7 +51,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef RGB_MATRIX_SPLIT
 #    undef RGB_MATRIX_SPLIT
 #endif
-#define RGB_MATRIX_SPLIT { 27, 27 }
+#define RGB_MATRIX_SPLIT { 35, 35 }
 
 // Underglow
 /*
