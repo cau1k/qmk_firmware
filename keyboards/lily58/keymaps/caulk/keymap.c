@@ -55,14 +55,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //    ├───────────────┼─────┼─────┼─────┼─────┼──────┼─────┐   ┌─────┼────────────┼──────┼──────┼────────────┼─────┼─────┤
 //    │               │ f9  │ f10 │ f11 │ f12 │ paus │     │   │     │ LCTL(left) │  "   │  \   │ LCTL(rght) │  |  │     │
 //    └───────────────┴─────┼─────┼─────┼─────┼──────┼─────┘   └─────┼────────────┼──────┼──────┼────────────┼─────┴─────┘
-//                          │     │     │     │      │               │            │ del  │      │            │
+//                          │     │     │     │      │               │            │ bspc │ del  │            │
 //                          └─────┴─────┴─────┴──────┘               └────────────┴──────┴──────┴────────────┘
 [_NAV] = LAYOUT(
   OSM(MOD_LALT) , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS       , KC_TRNS , KC_TRNS , KC_TRNS       , KC_TRNS , KC_TRNS,
   KC_TRNS       , KC_F1   , KC_F2   , KC_F3   , KC_F4   , KC_PSCR ,                         KC_HOME       , KC_PGDN , KC_PGUP , KC_END        , KC_INS  , KC_DEL ,
   KC_TRNS       , KC_F5   , KC_F6   , KC_F7   , KC_F8   , KC_0    ,                         KC_LEFT       , KC_DOWN , KC_UP   , KC_RGHT       , KC_ESC  , KC_TILD,
   KC_TRNS       , KC_F9   , KC_F10  , KC_F11  , KC_F12  , KC_PAUS , KC_TRNS ,     KC_TRNS , LCTL(KC_LEFT) , KC_DQUO , KC_BSLS , LCTL(KC_RGHT) , KC_PIPE , KC_TRNS,
-                            KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS       , KC_DEL  , KC_TRNS , KC_TRNS
+                            KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS       , KC_BSPC , KC_DEL  , KC_TRNS
 ),
 
 //    ┌─────┬────┬─────┬─────┬─────┬─────┐               ┌─────┬─────┬─────┬─────┬─────┬─────┐
