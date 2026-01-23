@@ -35,6 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define QUICK_TAP_TERM 0
 #define TAPPING_TERM 180
 #define TAPPING_TERM_PER_KEY
+#define TAPPING_TOGGLE 2
 #define SPLIT_LAYER_STATE_ENABLE
 #define SPLIT_TRANSPORT_MIRROR
 #define SPLIT_WPM_ENABLE
@@ -43,7 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define AUTO_MOUSE_DEFAULT_LAYER 3
 #define AUTO_MOUSE_THRESHOLD 0
 #define AUTO_MOUSE_DELAY 0
-#define AUTO_MOUSE_TIME 300
+#define AUTO_MOUSE_TIME 1000
 #define AUTO_MOUSE_DEBOUNCE 10
 
 #define UNICODE_SELECTED_MODES UNICODE_MODE_LINUX
