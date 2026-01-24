@@ -277,6 +277,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         set_keylog(keycode, record);
 #    endif
         // set_timelog();
+        if (layer_state_is(_ADJ)) {
+            if (keycode != TT(_NAV) && keycode != TT(_SYM)) {
+                uint16_t adj_kc = keymap_key_to_keycode(_ADJ, record->event.key);
+                if (adj_kc == KC_TRNS) {
+                    layer_off(_NAV);
+                    layer_off(_SYM);
+                }
+            }
+        }
     }
     return true;
 }
