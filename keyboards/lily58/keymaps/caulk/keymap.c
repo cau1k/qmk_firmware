@@ -168,7 +168,7 @@ bool rgb_matrix_indicators_user(void) {
 
     switch (get_highest_layer(layer_state)) {
         case _BASE:
-            rgb_matrix_set_color_all(0, 255, 0);
+            rgb_matrix_set_color_all(27, 253, 156);
             break;
         case _NAV:
             set_nav_rgb();
