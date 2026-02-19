@@ -26,6 +26,10 @@ enum layer_number {
     _ADJ,
 };
 
+static bool     adj_locked   = false;
+static uint16_t adj_tap_time = 0;
+static uint8_t  adj_tap_cnt  = 0;
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //    ┌───────────────┬───┬──────┬──────┬──────┬─────┐                         ┌─────┬──────┬──────┬──────┬───┬─────────────┐
 //    │      esc      │ 1 │  2   │  3   │  4   │  5  │                         │  6  │  7   │  8   │  9   │ 0 │      `      │
@@ -107,6 +111,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 layer_state_t layer_state_set_user(layer_state_t state) {
     state = update_tri_layer_state(state, _NAV, _SYM, _ADJ);
 
+    if (adj_locked) {
+        state |= ((layer_state_t)1 << _ADJ);
+    }
+
 #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
     if (is_auto_mouse_active() && get_auto_mouse_layer() == _ADJ) {
         state |= ((layer_state_t)1 << _ADJ);
@@ -114,6 +122,36 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 #endif
 
     return state;
+}
+
+bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case TT(_ADJ):
+            // Deterministic behavior: double-tap toggles ADJ lock on/off.
+            if (!record->event.pressed) {
+                return false;
+            }
+
+            if (timer_elapsed(adj_tap_time) < 250) {
+                adj_tap_cnt++;
+            } else {
+                adj_tap_cnt = 1;
+            }
+            adj_tap_time = timer_read();
+
+            if (adj_tap_cnt >= 2) {
+                adj_locked = !adj_locked;
+                if (adj_locked) {
+                    layer_on(_ADJ);
+                } else {
+                    layer_off(_ADJ);
+                }
+                adj_tap_cnt = 0;
+            }
+            return false;
+        default:
+            return true;
+    }
 }
 
 bool caps_word_press_user(uint16_t keycode) {
