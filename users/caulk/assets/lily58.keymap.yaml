@@ -8,7 +8,7 @@ layers:
   - ['LT( NAV,ESC)', A, S, D, F, G]
   - [H, J, K, L, ;, 'LT( SYM,QUOT)']
   - [LSFT, Z, X, C, V, B]
-  - [TT( SYM), TT( NAV), N, M, ',', .]
+  - [TT( ADJ), TT( NAV), N, M, ',', .]
   - [/, RSFT, LCTL, LGUI, LALT, SPC]
   - [ENT, BSPC, LGUI, LCTL]
   NAV:
@@ -75,11 +75,11 @@ layers:
     - \
   - - {t: ▽, type: trans}
     - {t: ▽, type: trans}
-    - {t: ▽, type: trans}
     - '{'
     - '}'
     - '['
-  - - ']'
+    - ']'
+  - - \
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}

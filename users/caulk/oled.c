@@ -83,7 +83,7 @@ static const char PROGMEM tap[TAP_FRAMES][ANIM_SIZE] = {
 };
 
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-    if (is_keyboard_left()) {
+    if (is_keyboard_master()) {
         return rotation;
     }
     return OLED_ROTATION_270;
@@ -189,7 +189,7 @@ static void render_bongocat(void) {
 }
 
 bool oled_task_user(void) {
-    if (is_keyboard_left()) {
+    if (is_keyboard_master()) {
         return false;
     }
 

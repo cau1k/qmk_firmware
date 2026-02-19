@@ -40,12 +40,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define SPLIT_TRANSPORT_MIRROR
 #define SPLIT_WPM_ENABLE
 #define SPLIT_OLED_ENABLE
-#define POINTING_DEVICE_AUTO_MOUSE_ENABLE
-#define AUTO_MOUSE_DEFAULT_LAYER 3
-#define AUTO_MOUSE_THRESHOLD 0
-#define AUTO_MOUSE_DELAY 0
-#define AUTO_MOUSE_TIME 300
-#define AUTO_MOUSE_DEBOUNCE 10
+// Manual mouse layer feels more predictable than auto-mouse for this keymap.
+// #define POINTING_DEVICE_AUTO_MOUSE_ENABLE
+// #define AUTO_MOUSE_DEFAULT_LAYER 3
+// #define AUTO_MOUSE_THRESHOLD 10
+// #define AUTO_MOUSE_DELAY TAPPING_TERM
+// #define AUTO_MOUSE_TIME 650
+// #define AUTO_MOUSE_DEBOUNCE 25
 
 #define UNICODE_SELECTED_MODES UNICODE_MODE_LINUX
 
