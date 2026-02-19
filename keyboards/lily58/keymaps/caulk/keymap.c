@@ -89,7 +89,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 //    ┌─────────────────┬────────────────┬─────────┬─────┬─────┬─────┐               ┌───────────┬─────────────┬──────┬──────┬─────┬─────┐
-//    │ QK_CLEAR_EEPROM │ HK_OLED_TOGGLE │ CW_TOGG │     │     │     │               │           │             │      │      │     │     │
+//    │ QK_CLEAR_EEPROM │                │ CW_TOGG │     │     │     │               │           │             │      │      │     │     │
 //    ├─────────────────┼────────────────┼─────────┼─────┼─────┼─────┤               ├───────────┼─────────────┼──────┼──────┼─────┼─────┤
 //    │                 │                │         │     │     │     │               │           │    btn4     │ btn5 │      │     │     │
 //    ├─────────────────┼────────────────┼─────────┼─────┼─────┼─────┤               ├───────────┼─────────────┼──────┼──────┼─────┼─────┤
@@ -100,7 +100,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //                                       │         │     │     │     │               │           │             │      │      │
 //                                       └─────────┴─────┴─────┴─────┘               └───────────┴─────────────┴──────┴──────┘
 [_ADJ] = LAYOUT(
-  QK_CLEAR_EEPROM , HK_OLED_TOGGLE , CW_TOGG , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS   , KC_TRNS     , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
+  QK_CLEAR_EEPROM , KC_TRNS        , CW_TOGG , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS   , KC_TRNS     , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
   KC_TRNS         , KC_TRNS        , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS   , KC_BTN4     , KC_BTN5 , KC_TRNS , KC_TRNS , KC_TRNS,
   KC_TRNS         , KC_TRNS        , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         HK_S_MODE , KC_BTN1     , KC_BTN3 , KC_BTN2 , KC_TRNS , KC_TRNS,
   KC_TRNS         , KC_TRNS        , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,     KC_TRNS , KC_TRNS   , HK_D_MODE_T , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,

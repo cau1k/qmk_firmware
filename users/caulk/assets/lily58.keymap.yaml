@@ -91,7 +91,7 @@ layers:
     - {t: ▽, type: trans}
   ADJ:
   - - QK CLEAR EEPROM
-    - HK OLED TOGGLE
+    - {t: ▽, type: trans}
     - CW TOGG
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
