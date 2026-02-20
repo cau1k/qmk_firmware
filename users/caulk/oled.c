@@ -186,6 +186,14 @@ void hk_oled_render_layerinfo(void) {
 }
 
 bool oled_task_user(void) {
+    oled_on();
+
+    if (!g_hk_state.init) {
+        oled_write_ln_P(PSTR("OLED:ON"), false);
+        oled_write_ln_P(PSTR("WAITING RPC"), false);
+        return true;
+    }
+
     if (g_hk_state.init) {
         hk_oled_render_keyinfo();
         hk_oled_render_pointer_state();
